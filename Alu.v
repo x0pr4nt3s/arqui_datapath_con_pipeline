@@ -17,7 +17,6 @@ begin
 case (Op)
 4'b0000 : Reg3 = Reg1 + Reg2; //add
 4'b0001 : Reg3 = Reg1 - Reg2; //sub
-4'b0010 : Reg3 = ~Reg1; //NOT gate
 4'b0100 : Reg3 = ~(Reg1 | Reg2); //NOR gate
 4'b0101 : Reg3 = Reg1 & Reg2; //AND gate
 4'b0110 : Reg3 = Reg1 | Reg2; //OR gate
