@@ -1,10 +1,10 @@
 module Data_Memory(clk, address, memwrite, writedata, read_data, memread);
 input clk;
-input address;
+input [31:0] address;
 input memwrite;
 input memread;
-input writedata;
-output read_data;
+input [31:0] writedata;
+output [31:0] read_data;
 
 reg[7:0]array[39:0];
 
