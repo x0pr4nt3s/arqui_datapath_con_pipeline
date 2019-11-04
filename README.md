@@ -1,1 +1,0 @@
-# arqui_datapath_con_pipeline
