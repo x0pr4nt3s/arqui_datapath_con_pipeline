@@ -19,7 +19,7 @@ ISA-2:
 
 always@(*)
 begin
-  case(ctrl) 
+  case(alu_ctrl) 
     //ADD
     4'b0000:
 	    alu_result= entr1+entr2;
@@ -42,32 +42,24 @@ begin
         alu_result = 1'b1;
     else
         alu_result = 1'b0;
-
     end
     //BEQ
     4'b0110: 
     begin
-	if(entr1==entr2)
-        begin
-          zero = 1'b1;
-        end
-        else 
-        begin
-          zero = 1'b0;
-        end
+	  if(entr1==entr2)
+        zero = 1'b1;
+    else 
+        zero = 1'b0;
+    end
     //BNQ
     4'b0111:
     begin
-	if(entr1==entr2)
-        begin
-          zero = 1'b0;
-        end
-        else 
-        begin
-          zero = 1'b1;
-        end
+	  if(entr1==entr2)
+      zero = 1'b0;
+    else 
+      zero = 1'b1;
+    end
     //BGEZ
-  end
   endcase
 end
 endmodule

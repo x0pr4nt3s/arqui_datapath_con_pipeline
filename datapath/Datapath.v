@@ -3,7 +3,7 @@ input clk;
 
 
 /*
-output wire [31:0] address_final, resultado_de_alu;
+output wire [31:0] pc_final, resultado_de_alu;
 wire [31:0] Out_PC, In_PC, PC_4, I_PC, S_E_S_L,PC_final;
 
 wire RegDst,Jump,MemtoReg,ALUsrc,RegWrite;
