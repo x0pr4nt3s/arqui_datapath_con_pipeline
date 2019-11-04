@@ -17,7 +17,7 @@ if(Instruction==6'b000000)//R-Type
     ALUSrc = 0;
     RegWrite = 1;
   end
-else//TIPO I
+else
   begin 
   case(Instruction)
   6'b100011: //lw
