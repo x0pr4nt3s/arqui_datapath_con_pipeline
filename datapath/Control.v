@@ -17,7 +17,8 @@ if(Instruction==6'b000000)//R-Type
     ALUSrc = 0;
     RegWrite = 1;
   end
-else//TIPO I
+
+else //TIPO I
   begin 
   case(Instruction)
   6'b100011: //lw
@@ -97,6 +98,20 @@ else//TIPO I
     ALUSrc = 1;
     RegWrite = 0;
   end
+
+  6'b001111: //lui
+  begin
+    RegDst = 1;
+    Jump = 2'b00;
+    Branch = 2'b00;
+    MemRead = 2'b00;
+    MemtoReg = 0;
+    ALUOp = 2'b01;
+    MemWrite = 2'b00;
+    ALUSrc = 1;
+    RegWrite = 1;
+  end
+
   6'b000010: //jump
   begin
     RegDst = 1'bx;
@@ -104,7 +119,7 @@ else//TIPO I
     Branch = 2'b00;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'bxx; //REVISAR
+    ALUOp = 2'bxx; 
     MemWrite = 2'b00;
     ALUSrc = 1'bx;
     RegWrite = 0;
@@ -117,7 +132,7 @@ else//TIPO I
     Branch = 2'b00;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'bxx; //REVISAR
+    ALUOp = 2'bxx;
     MemWrite = 2'b00;
     ALUSrc = 1'bx;
     RegWrite = 0;
@@ -134,18 +149,6 @@ else//TIPO I
     MemWrite = 2'b00;
     ALUSrc = 1'bx;
     RegWrite = 0;
-  end
-  6'b001111: //lui
-  begin
-    RegDst = 1;
-    Jump = 2'b00;
-    Branch = 2'b00;
-    MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01; //INMEDIATE
-    MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
   end
   endcase
   end
