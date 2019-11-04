@@ -1,26 +1,73 @@
-module ALU(A,B,Op,R);
- 
-input [31:0] A,B;
-input [4:0] Op;
-output [31:0] R;
-wire [31:0] Reg1,Reg2;
-reg [31:0] Reg3;
- 
- 
-assign Reg1 = A;
-assign Reg2 = B;
+module ALU(entr1,entr2,alu_ctrl,alu_result,zero);
+//entradas al alu
+input [31:0] entr1, entr2;
+//orden de la instruccion 
+input [3:0] alu_ctrl;
 
-assign R = Reg3;
- 
-always @(Op or Reg1 or Reg2)
-begin
-case (Op)
-4'b0000 : Reg3 = Reg1 + Reg2; //add
-4'b0001 : Reg3 = Reg1 - Reg2; //sub
-4'b0100 : Reg3 = ~(Reg1 | Reg2); //NOR gate
-4'b0101 : Reg3 = Reg1 & Reg2; //AND gate
-4'b0110 : Reg3 = Reg1 | Reg2; //OR gate
-endcase
+output reg zero;
+initial begin
+zero = 1'b0;
 end
- 
+
+output reg [31:0] alu_result;
+/*
+ISA-1:
+add,addi,sub,and,andi,nor,ori,or,slti,slt.
+ISA-2:
+
+*/
+
+always@(*)
+begin
+  case(ctrl) 
+    //ADD
+    4'b0000:
+	    alu_result= entr1+entr2;
+    //SUB
+    4'b0001: 
+	    alu_result = entr1 - entr2;
+    //AND
+    4'b0010: 
+	    alu_result = entr1 & entr2;
+    //NOR
+    4'b0011: 
+        alu_result = ~(entr1 | entr2);
+    //OR
+    4'b0100:
+        alu_result = entr1 | entr2;
+    //SLT
+    4'b0101:
+    begin 
+    if(entr1>entr2)
+        alu_result = 1'b1;
+    else
+        alu_result = 1'b0;
+
+    end
+    //BEQ
+    4'b0110: 
+    begin
+	if(entr1==entr2)
+        begin
+          zero = 1'b1;
+        end
+        else 
+        begin
+          zero = 1'b0;
+        end
+    //BNQ
+    4'b0111:
+    begin
+	if(entr1==entr2)
+        begin
+          zero = 1'b0;
+        end
+        else 
+        begin
+          zero = 1'b1;
+        end
+    //BGEZ
+  end
+  endcase
+end
 endmodule

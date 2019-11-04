@@ -1,18 +1,10 @@
 module Data_Memory(clk, address, memwrite, writedata, read_data, memread);
 input clk;
-<<<<<<< HEAD
 input [31:0] address;
-input memwrite;
-input memread;
+input [1:0] memwrite;
+input [1:0] memread;
 input [31:0] writedata;
 output [31:0] read_data;
-=======
-input address;
-input memwrite; //control
-input memread; //control
-input writedata; 
-output read_data;
->>>>>>> 7d6e56a00afb5e55c9f01183a52f6dc22b8341aa
 
 reg[7:0]array[39:0];
 
@@ -61,14 +53,14 @@ begin
   end
   if(memwrite == 2'b10) //sb
   begin
-    	array[address+3] <= read_data[7:0];
+    array[address+3] <= read_data[7:0];
 	array[address+2] <= 8'hFF;
 	array[address+1] <= 8'hFF;
 	array[address] <= 8'hFF;
   end
   if(memwrite == 2'b11) //sh
   begin
-    	array[address+3] <= read_data[7:0];
+    array[address+3] <= read_data[7:0];
 	array[address+2] <= read_data[15:8];
 	array[address+1] <= 8'h00;
 	array[address] <= 8'h00;

@@ -17,22 +17,9 @@ if(Instruction==6'b000000)//R-Type
     ALUSrc = 0;
     RegWrite = 1;
   end
-else
+else//TIPO I
   begin 
   case(Instruction)
-  6'b000000: //R-type
-  begin
-    RegDst =1;
-    Jump = 2'b00;
-    Branch = 2'b00;
-    MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b00;
-    MemWrite = 2'b00;
-    ALUSrc = 0;
-    RegWrite = 1;
-  end
-
   6'b100011: //lw
   begin
     RegDst = 0;
@@ -110,7 +97,7 @@ else
     ALUSrc = 1;
     RegWrite = 0;
   end
-  
+  /*
   6'b000100: //beq
   begin
     RegDst = 1'bx;
@@ -136,10 +123,33 @@ else
     ALUSrc = 0;
     RegWrite = 0;
   end
+  */
   endcase
   end
 end
 endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 case(Instruction)
   6'b000000: //R-type
