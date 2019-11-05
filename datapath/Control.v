@@ -99,17 +99,43 @@ else
 
   6'b001111: //lui
   begin
-    RegDst = 1;
+    RegDst = 0;
     Jump = 2'b00;
     Branch = 2'b00;
     MemRead = 2'b00;
     MemtoReg = 0;
-    ALUOp = 2'b01;
+    ALUOp = 2'b01; //REVISAR
     MemWrite = 2'b00;
     ALUSrc = 1;
     RegWrite = 1;
   end
-
+    
+  6'b001111: //andi
+  begin
+    RegDst = 0;
+    Jump = 2'b00;
+    Branch = 2'b00;
+    MemRead = 2'b00;
+    MemtoReg = 0;
+    ALUOp = 2'b01; //REVISAR
+    MemWrite = 2'b00;
+    ALUSrc = 1;
+    RegWrite = 1;
+  end
+    
+  6'b001111: //ori
+  begin
+    RegDst = 0;
+    Jump = 2'b00;
+    Branch = 2'b00;
+    MemRead = 2'b00;
+    MemtoReg = 0;
+    ALUOp = 2'b01; //REVISAR
+    MemWrite = 2'b00;
+    ALUSrc = 1;
+    RegWrite = 1;
+  end
+    
   6'b000010: //jump
   begin
     RegDst = 1'bx;
