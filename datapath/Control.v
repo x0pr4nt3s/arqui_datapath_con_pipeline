@@ -7,22 +7,17 @@ always @(*)
 begin
 if(Instruction==6'b000000)//R-Type
   begin
-    RegDst =1;
-    Jump = 2'b00;
-    Branch = 2'b00;
-    MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b00;
-    MemWrite = 2'b00;
-    ALUSrc = 0;
-    RegWrite = 1;
+  RegDst =1;
+  Jump = 2'b00;
+  Branch = 2'b00;
+  MemRead = 2'b00;
+  MemtoReg = 0;
+  ALUOp = 2'b00;
+  MemWrite = 2'b00;
+  ALUSrc = 0;
+  RegWrite = 1;
   end
-<<<<<<< HEAD
 else
-=======
-
-else //TIPO I
->>>>>>> 3995b96dee4b2a02d14aec7da3027f8cc56884aa
   begin 
   case(Instruction)
   6'b100011: //lw
@@ -37,7 +32,6 @@ else //TIPO I
     ALUSrc = 1;
     RegWrite = 1;
   end
-
   6'b101011: //sw
   begin
     RegDst = 1'bx;

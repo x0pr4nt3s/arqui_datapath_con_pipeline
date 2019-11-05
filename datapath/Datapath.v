@@ -13,22 +13,23 @@
 `include"Shift_left_Jump.v"
 `include"SignExtend.v"
 module DATAPATH(clk);
-
-wire [31:0] address_final;
-input clk;
+wire [31:0] address_final;//funca
+input clk;//funca
 wire [31:0] pc_final;//pc_final=es la direccion a la que va a apuntar el program counter
 //Out_PC=salida del program counter 
 wire [31:0] Out_PC, In_PC, PC_4, I_PC, S_E_S_L,PC_final;
-wire RegDst,Jump,MemtoReg,ALUsrc,RegWrite;//del Control
+wire RegDst,Jump,MemtoReg,ALUsrc,RegWrite;//del Control 
 wire [1:0] Branch, ALUOP, MemRead, MemWrite;//del Control
 wire [31:0] Instruction;
-wire [31:0] RD1, RD2, sign_extended, RF_to_ALU, ALU_out;//los primeros dos son las salidas del register file
-wire [3:0] ctrl_to_ALU;
+wire [31:0] RD1, RD2, sign_extended, RF_to_ALU, ALU_out;//los primeros dos son las salidas del register file,el segundo es sign extend
+wire [31:0] mux_alu;//es el mux antes del alu
+wire [3:0] ctrl_to_ALU;//es el opcode para el alu
 wire ZERO, ZERO_to_MUX;
 wire [31:0] DM_out, DM_to_RF;
-wire mux_to_RF;
+wire [4:0] mux_to_RF;
 wire [31:0] Jump_address;
 wire [31:0] PC_final_Jump;
+wire [31:0] mux_from_data_mem;
 
 
 //llamo al program counter
@@ -40,7 +41,13 @@ Control call_Control(.Instruction(Instruction[31:26]),.RegDst(RegDst),.Jump(Jump
 //llama al mux2_1_5bits()
 mux2_1_5 call_mux2_1_5bits(.a(Instruction[20:16]),.b(Instruction[15:11]),.sel(RegDst),.out(mux_to_RF));
 //llama al register file
-Register_File call_RF(.clk(clk),.readreg1(Instruction[25:21]),.readreg2(Instruction[20:16]),.writereg(mux_to_RF),.writedata(MemtoReg),.read_data1(RD1),.read_data2(RD2));
+Register_File call_RF(.clk(clk),.readreg1(Instruction[25:21]),.readreg2(Instruction[20:16]),.writereg(mux_to_RF),.writedata(mux_from_data_mem),.read_data1(RD1),.read_data2(RD2),.regwrite(RegWrite));
+//llama al SignExtend
+SignExtend call_Signextend(.a(Instruction[15:0]),.b(sign_extended));
+//llama al mux que esta antes del alu 
+mux2_1 mux_de_32(.a(RD2),.b(sign_extended),.sel(ALUSrc),.out(mux_alu));
+//llama al alu control
+ALU_control call_alu_control(.aluOp(ALUOP),.func(Instruction[5:0]),.out(ctrl_to_ALU));
 //
 
 
