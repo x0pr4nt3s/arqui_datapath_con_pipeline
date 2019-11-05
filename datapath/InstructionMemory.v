@@ -4,7 +4,7 @@ input [31:0] pc;
 output reg [31:0] out;
 reg [7:0] IM [0:7];
 initial begin
-$readmemb("imllenar.txt",IM);
+  $readmemb("instrucciones.txt",instrucciones);
 end
 always@(pc)
 begin
