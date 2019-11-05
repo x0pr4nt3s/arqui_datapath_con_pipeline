@@ -16,7 +16,7 @@ wire [1:0] memwrite;
 reg [31:0] read_data;
 
 initial
-  begin
+  begin 
     $readmemb("array.txt", array);
   end 
 

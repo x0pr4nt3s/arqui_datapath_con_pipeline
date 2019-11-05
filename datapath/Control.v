@@ -1,7 +1,8 @@
 module Control(Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
+
 input [5:0] Instruction;
-output reg RegDst,Jump,MemtoReg,ALUSrc,RegWrite;
-output reg [1:0] ALUOp, Branch, MemRead, MemWrite;
+output reg RegDst,Branch,Jump,MemtoReg,ALUSrc,RegWrite;
+output reg [1:0] ALUOp, MemRead, MemWrite;
 
 always @(*)
 begin
@@ -9,7 +10,7 @@ if(Instruction==6'b000000)//R-Type
   begin
   RegDst =1;
   Jump = 2'b00;
-  Branch = 2'b00;
+  Branch = 1'b0;
   MemRead = 2'b00;
   MemtoReg = 0;
   ALUOp = 2'b00;
@@ -24,7 +25,7 @@ else
   begin
     RegDst = 0;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b01;
     MemtoReg = 1;
     ALUOp = 2'b01;	
@@ -36,7 +37,7 @@ else
   begin
     RegDst = 1'bx;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
     ALUOp = 2'b01;
@@ -49,7 +50,7 @@ else
   begin
     RegDst = 0;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b10;
     MemtoReg = 1;
     ALUOp = 2'b01;	
@@ -62,7 +63,7 @@ else
   begin
     RegDst = 1'bx;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
     ALUOp = 2'b01;	
@@ -75,7 +76,7 @@ else
   begin
     RegDst = 0;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b11;
     MemtoReg = 1;
     ALUOp = 2'b01;
@@ -88,7 +89,7 @@ else
   begin
     RegDst = 1'bx;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
     ALUOp = 2'b01;	
@@ -101,7 +102,7 @@ else
   begin
     RegDst = 0;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 0;
     ALUOp = 2'b01; //REVISAR
@@ -114,7 +115,7 @@ else
   begin
     RegDst = 0;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 0;
     ALUOp = 2'b01; //REVISAR
@@ -127,7 +128,7 @@ else
   begin
     RegDst = 0;
     Jump = 2'b00;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 0;
     ALUOp = 2'b01; //REVISAR
@@ -135,12 +136,51 @@ else
     ALUSrc = 1;
     RegWrite = 1;
   end
-    
+
+  6'b001111: //beq
+  begin
+    RegDst = 0;
+    Jump = 2'b00;
+    Branch = 1'b1;
+    MemRead = 2'b00;
+    MemtoReg = 0;
+    ALUOp = 2'b01; 
+    MemWrite = 2'b00;
+    ALUSrc = 1;
+    RegWrite = 1;
+  end
+
+  6'b001111: //bneq
+  begin
+    RegDst = 0;
+    Jump = 2'b00;
+    Branch = 1'b1;
+    MemRead = 2'b00;
+    MemtoReg = 0;
+    ALUOp = 2'b01;
+    MemWrite = 2'b00;
+    ALUSrc = 1;
+    RegWrite = 1;
+  end
+
+  6'b001111: //bgez
+  begin
+    RegDst = 0;
+    Jump = 2'b00;
+    Branch = 1'b1;
+    MemRead = 2'b00;
+    MemtoReg = 0;
+    ALUOp = 2'b01;
+    MemWrite = 2'b00;
+    ALUSrc = 1;
+    RegWrite = 1;
+  end  
+
   6'b000010: //jump
   begin
     RegDst = 1'bx;
     Jump = 2'b01;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
     ALUOp = 2'bxx; 
@@ -153,7 +193,7 @@ else
   begin
     RegDst = 1'bx;
     Jump = 2'b10;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
     ALUOp = 2'bxx;
@@ -166,7 +206,7 @@ else
   begin
     RegDst = 1'bx;
     Jump = 2'b11;
-    Branch = 2'b00;
+    Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
     ALUOp = 2'bxx; 
