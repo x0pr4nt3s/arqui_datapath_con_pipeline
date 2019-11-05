@@ -2,7 +2,7 @@ module InstructionMemory(clk,pc,out);
 input clk;
 input [31:0] pc;
 output reg [31:0] out;
-reg [7:0] IM [0:7];
+  reg [7:0] IM [0:59];
 initial begin
   $readmemb("instrucciones.txt",instrucciones);
 end
