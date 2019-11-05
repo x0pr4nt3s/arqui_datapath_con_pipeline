@@ -23,7 +23,7 @@ else
   case(Instruction)
   6'b100011: //lw
   begin
-    RegDst = 0;
+    RegDst = 1;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b01;
@@ -48,7 +48,7 @@ else
 
   6'b100000: //lb
   begin
-    RegDst = 0;
+    RegDst = 1;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b10;
@@ -74,7 +74,7 @@ else
 
   6'b100001: //lh
   begin
-    RegDst = 0;
+    RegDst = 1;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b11;
