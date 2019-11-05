@@ -17,7 +17,7 @@ $readmemb("register_set.txt", reg_set);
 end
 
 //se lee en posedge
-always @(*) 
+    always @(posedge clk) 
 begin
     read_data1 <= reg_set[readreg1];
     read_data2 <= reg_set[readreg2];
