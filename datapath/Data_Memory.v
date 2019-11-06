@@ -6,7 +6,7 @@ input [1:0] memread;
 input [31:0] writedata;
 output [31:0] read_data;
 
-reg[7:0]array[39:0];
+reg[7:0]array[0:39];
 
 wire clk;
 wire [31:0] address;

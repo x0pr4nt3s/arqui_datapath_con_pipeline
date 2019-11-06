@@ -12,7 +12,8 @@
 `include"Shift_left_Branch.v"
 `include"Shift_left_Jump.v"
 `include"SignExtend.v"
-module DATAPATH(clk);
+module DATAPATH(clk,reset);
+input reset;
 wire [31:0] address_final;//funca
 input clk;//funca
 wire [31:0] pc_final;//pc_final=es la direccion a la que va a apuntar el program counter
@@ -69,5 +70,11 @@ mux2_1 call_mux_jump(.a(Jump_address),.b(mux_branch_out),.sel(Jump),.out(mux_jum
 Data_Memory call_data_memory(.clk(clk),.address(ALU_out),.memwrite(MemWrite),.writedata(RD2),.read_data(DM_out),.memread(MemRead));
 //llama al mux del data memory
 mux2_1 call_mux_data_memory(.a(DM_out),.b(ALU_out),.sel(MemtoReg),.out(DM_mux));
+
+always @ (posedge clk)
+begin
+#2;$display("%h,%h,%d,%d,%d,%d,%d", address_final, Instruction,RD1,RD2, DM_mux, ALUsrc, ALUOP);
+end
+
 endmodule
 
