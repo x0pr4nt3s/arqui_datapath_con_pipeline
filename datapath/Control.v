@@ -1,10 +1,18 @@
 module Control(clk,Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
+<<<<<<< HEAD
+=======
+
+>>>>>>> a36d1dd9f5c986c88dfff0cc5f627214779ee23f
 input clk;
 input [5:0] Instruction;
 output reg RegDst,Branch,Jump,MemtoReg,ALUSrc,RegWrite;
 output reg [1:0] ALUOp, MemRead, MemWrite;
 
+<<<<<<< HEAD
 always @(posedge clk)
+=======
+  always @(posedge clk)
+>>>>>>> a36d1dd9f5c986c88dfff0cc5f627214779ee23f
 begin
 if(Instruction==6'b000000)//R-Type
   begin
