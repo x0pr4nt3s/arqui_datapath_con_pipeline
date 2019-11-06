@@ -60,6 +60,13 @@ begin
       zero = 1'b1;
     end
     //BGEZ
+    4'b1111:
+    begin
+	  if(entr1>=0)
+	      zero =1'b1;
+	  else
+	      zero = 1'b0;
+	  
   endcase
 end
 endmodule
