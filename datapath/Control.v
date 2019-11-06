@@ -1,5 +1,6 @@
-module Control(Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
+module Control(clk,Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
 
+input clk;
 input [5:0] Instruction;
 output reg RegDst,Branch,Jump,MemtoReg,ALUSrc,RegWrite;
 output reg [1:0] ALUOp, MemRead, MemWrite;
