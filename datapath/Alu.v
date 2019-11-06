@@ -60,6 +60,17 @@ begin
       zero = 1'b1;
     end
     //BGEZ
+<<<<<<< HEAD
+=======
+    4'b1111:
+    begin
+	  if(entr1>=0)
+	      zero =1'b1;
+	  else
+	      zero = 1'b0;
+    end
+	  
+>>>>>>> 3f8b62543df797dfc90440184ade070011aa131a
   endcase
 end
 endmodule
