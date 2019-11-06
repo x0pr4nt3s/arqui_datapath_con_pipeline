@@ -71,6 +71,7 @@ Data_Memory call_data_memory(.clk(clk),.address(ALU_out),.memwrite(MemWrite),.wr
 //llama al mux del data memory
 mux2_1 call_mux_data_memory(.a(DM_out),.b(ALU_out),.sel(MemtoReg),.out(DM_mux));
 
+
 always @ (posedge clk)
 begin
 #2;$display("%h,%h,%d,%d,%d,%d,%d", address_final, Instruction,RD1,RD2, DM_mux, ALUsrc, ALUOP);

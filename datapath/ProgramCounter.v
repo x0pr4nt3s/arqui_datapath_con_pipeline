@@ -11,14 +11,6 @@ end
 
 always @(posedge clk)
 begin
-	if(contador == 32'h00000000)
-	begin
-		salida <= contador;
-		contador <= contador + 1; 
-	end
-	else
-	begin
-		salida <= entrada;
-	end
+	salida <= entrada;
 end
 endmodule
