@@ -1,40 +1,24 @@
 `include "Datapath.v"
-
 module testbench;
 reg clk;
 reg reset;
 
 DATAPATH test(.clk(clk),.reset(reset));
 
-initial 
- begin
-	clk = 1'b0;
-#5	begin
-	clk = 1'b1;
-	end
-#5	begin
-	clk = 0;
-	end
-#5 	begin
-	clk = 1;
-	end
-#5	begin
-	clk = 1;
-	end
-#5	begin 
-	clk = 0; 
-	end
-#5	begin
-	clk = 1;
-	end
-#5	begin 
-	clk = 0; 
-	end
-#5	begin
-	clk = 1;
-	end
+always 
+begin
+	clk=1'b1;
+	#1;clk=1'b0;
+	#1;clk=1'b0;
 end
-
 initial
 	$monitor($time, "Clock = %h",clk);
+
+
+always @(posedge clk) 
+begin
+#30;
+$finish;
+end
+
 endmodule
