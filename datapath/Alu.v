@@ -66,6 +66,7 @@ begin
 	      zero =1'b1;
 	  else
 	      zero = 1'b0;
+    end
 	  
   endcase
 end
