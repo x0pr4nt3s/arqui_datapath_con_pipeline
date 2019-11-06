@@ -40,7 +40,7 @@ wire [31:0] mux_jump_out; //la salida del mux del jump
 //llamo al program counter
 PC call_PC(.clk(clk),.entrada(address_final),.salida(Out_PC));
 //llama al instruction memory 
-InstructionMemory call_IM(.clk(clck),.pc(Out_PC),.out(Instruction));
+InstructionMemory call_IM(.clk(clk),.pc(Out_PC),.out(Instruction));
 //llama al Control 
 Control call_Control(.clk(clk),.Instruction(Instruction[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),.MemtoReg(MemtoReg),.ALUOp(ALUOP),.MemWrite(MemWrite),.ALUSrc(ALUsrc),.RegWrite(RegWrite));
 //llama al mux2_1_5bits()
@@ -74,7 +74,7 @@ mux2_1 call_mux_data_memory(.a(DM_out),.b(ALU_out),.sel(MemtoReg),.out(DM_mux));
 
 adder_pc call_adder_pc(.pc(Out_PC),.pc_add(address_final));
 
-always @ (posedge clk)
+always @ (posedge clk)  
 begin
 #2;$display("%d,%d,%d,%d,%d,%d,%d", address_final, Instruction,RD1,RD2, DM_mux, ALUsrc, ALUOP);
 end

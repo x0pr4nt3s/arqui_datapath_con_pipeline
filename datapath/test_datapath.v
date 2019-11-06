@@ -7,17 +7,22 @@ DATAPATH test(.clk(clk),.reset(reset));
 
 always 
 begin
-	clk=1'b1;
-	#1;clk=1'b0;
+	#1clk=~clk;
 end
-initial
+initial begin
+	$dumpfile("imb.vcd");
+	$dumpvars;
 	$monitor($time, "Clock = %h",clk);
+	reset<=1;
+	clk<=1;
+	#10;reset<=0;
+	#11;reset<=0;
+	#35;$finish;
 
-
-always @(posedge clk) 
-begin
-#30;
-$finish;
 end
+
+
+
+
 
 endmodule
