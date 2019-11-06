@@ -6,7 +6,7 @@ output reg [31:0] out;
 initial begin
 $readmemb("instrucciones.txt",instrucciones);
 end
-always@(pc)
+always@(posedge clk)
 begin
   out <= {instrucciones[pc],instrucciones[pc+1],instrucciones[pc+2],instrucciones[pc+3]};
 end 

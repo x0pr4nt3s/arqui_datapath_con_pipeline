@@ -1,3 +1,4 @@
+`include"pc_4.v"
 `include"Adder.v"
 `include"Alu.v"
 `include"Alu_control.v"
@@ -41,7 +42,7 @@ PC call_PC(.clk(clk),.entrada(address_final),.salida(Out_PC));
 //llama al instruction memory 
 InstructionMemory call_IM(.clk(clck),.pc(Out_PC),.out(Instruction));
 //llama al Control 
-Control call_Control(.Instruction(Instruction[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),.MemtoReg(MemtoReg),.ALUOp(ALUOP),.MemWrite(MemWrite),.ALUSrc(ALUsrc),.RegWrite(RegWrite));
+Control call_Control(.clk(clk),.Instruction(Instruction[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),.MemtoReg(MemtoReg),.ALUOp(ALUOP),.MemWrite(MemWrite),.ALUSrc(ALUsrc),.RegWrite(RegWrite));
 //llama al mux2_1_5bits()
 mux2_1_5 call_mux2_1_5bits(.a(Instruction[20:16]),.b(Instruction[15:11]),.sel(RegDst),.out(mux_to_RF));
 //llama al register file
@@ -71,10 +72,11 @@ Data_Memory call_data_memory(.clk(clk),.address(ALU_out),.memwrite(MemWrite),.wr
 //llama al mux del data memory
 mux2_1 call_mux_data_memory(.a(DM_out),.b(ALU_out),.sel(MemtoReg),.out(DM_mux));
 
+adder_pc call_adder_pc(.pc(Out_PC),.pc_add(address_final));
 
 always @ (posedge clk)
 begin
-#2;$display("%h,%h,%d,%d,%d,%d,%d", address_final, Instruction,RD1,RD2, DM_mux, ALUsrc, ALUOP);
+#2;$display("%d,%d,%d,%d,%d,%d,%d", address_final, Instruction,RD1,RD2, DM_mux, ALUsrc, ALUOP);
 end
 
 endmodule
