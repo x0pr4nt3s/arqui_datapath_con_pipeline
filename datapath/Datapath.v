@@ -38,7 +38,9 @@ wire [31:0] mux_branch_out;//mux del branch
 wire Branch;//del control
 wire [31:0] mux_jump_out; //la salida del mux del jump
 //llamo al program counter
-PC call_PC(.clk(clk),.entrada(address_final),.salida(Out_PC));
+PC #(32)call_pc(.clk(clk),.reset(reset),.d(address_final),.q(Out_PC));
+
+/*
 //llama al instruction memory 
 InstructionMemory call_IM(.clk(clk),.pc(Out_PC),.out(Instruction));
 //llama al Control 
@@ -73,10 +75,10 @@ Data_Memory call_data_memory(.clk(clk),.address(ALU_out),.memwrite(MemWrite),.wr
 mux2_1 call_mux_data_memory(.a(DM_out),.b(ALU_out),.sel(MemtoReg),.out(DM_mux));
 
 adder_pc call_adder_pc(.pc(Out_PC),.pc_add(address_final));
-
+*/
 always @ (posedge clk)  
 begin
-#2;$display("%d,%d,%d,%d,%d,%d,%d", address_final, Instruction,RD1,RD2, DM_mux, ALUsrc, ALUOP);
+#2;$display("%d",Out_PC);
 end
 
 endmodule

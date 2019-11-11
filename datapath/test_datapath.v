@@ -12,12 +12,11 @@ end
 initial begin
 	$dumpfile("imb.vcd");
 	$dumpvars;
-	$monitor($time, "Clock = %h",clk);
+	$monitor($time, " Clock = %h",clk);
 	reset<=1;
 	clk<=1;
-	#10;reset<=0;
-	#11;reset<=0;
-	#35;$finish;
+	#1;reset<=0;
+	#31;$finish;
 
 end
 

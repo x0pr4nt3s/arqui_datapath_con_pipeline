@@ -20,7 +20,7 @@ initial
     $readmemb("array.txt", array);
   end 
 
-always @(*) //REVISAR
+always @(posedge clk) //REVISAR
 begin
   if (memread == 2'b01) //lw
   begin
