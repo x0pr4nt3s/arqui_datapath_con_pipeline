@@ -14,12 +14,24 @@
 `include"Shift_left_Jump.v"
 `include"SignExtend.v"
 module DATAPATH(clk,reset);
-input reset;
-wire [31:0] address_final;//funca
 input clk;//funca
-wire [31:0] pc_final;//pc_final=es la direccion a la que va a apuntar el program counter
-//Out_PC=salida del program counter 
-wire [31:0] Out_PC, PC_4;
+input reset;
+
+//PROGRAM COUNTER:
+wire [31:0] address_final;//funca 
+wire [31:0] Out_PC;//Out_PC=salida del program counter
+
+//INSTRUCTION MEMORY:
+wire [31:0] Instruction;//la instruccion
+
+//CONTROL:
+wire RegDst,Jump,MemtoReg,ALUsrc,RegWrite,Branch;//del Control 
+wire [1:0] ALUOP, MemRead, MemWrite;//del Control
+
+//REGISTER FILE:
+
+
+/*
 wire RegDst,Jump,MemtoReg,ALUsrc,RegWrite;//del Control 
 wire [1:0] ALUOP, MemRead, MemWrite;//del Control
 wire [31:0] Instruction;
@@ -33,12 +45,27 @@ wire [4:0] mux_to_RF;//sirve
 wire [31:0] Jump_address;//shift left jump
 wire [31:0] PC_final_Jump;//no sirve 
 wire [31:0] mux_from_data_mem;
-wire [31:0] branch_pc;//sirve carajo
+wire [31:0] branch_pc;//
 wire [31:0] mux_branch_out;//mux del branch
 wire Branch;//del control
 wire [31:0] mux_jump_out; //la salida del mux del jump
 //llamo al program counter
+*/
+
+//FETCH:
 PC #(32)call_pc(.clk(clk),.reset(reset),.d(address_final),.q(Out_PC));
+InstructionMemory call_IM(.pc(Out_PC),.out(Instruction));
+
+//DECODE:
+Control call_Control(.clk(clk),.Instruction(Instruction[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),
+.MemtoReg(MemtoReg),.ALUOp(ALUOP),.MemWrite(MemWrite),.ALUSrc(ALUsrc),.RegWrite(RegWrite));//llamando al control
+
+//mux2_1_5 call_mux2_1_5bits(.a(Instruction[20:16]),.b(Instruction[15:11]),.sel(RegDst),.out(mux_in_to_RF));
+
+adder_pc call_adder_pc(.pc(Out_PC),.pc_add(address_final));
+
+//EXECUTE
+
 
 /*
 //llama al instruction memory 
@@ -78,7 +105,7 @@ adder_pc call_adder_pc(.pc(Out_PC),.pc_add(address_final));
 */
 always @ (posedge clk)  
 begin
-#2;$display("%d",Out_PC);
+#1;$display("%d,%d",Out_PC,Instruction);
 end
 
 endmodule
