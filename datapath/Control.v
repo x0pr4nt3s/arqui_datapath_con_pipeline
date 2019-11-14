@@ -2,33 +2,34 @@ module Control(clk,Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrit
 input clk;
 input [5:0] Instruction;
 output reg RegDst,Branch,Jump,MemtoReg,ALUSrc,RegWrite;
-output reg [1:0] ALUOp, MemRead, MemWrite;
+output reg [1:0] MemRead, MemWrite;
+output reg [3:0] ALUOp;
 
 always @(*)
 begin
 if(Instruction==6'b000000)//R-Type
   begin
-  RegDst =1;
+  RegDst =1'b1;
   Jump = 2'b00;
   Branch = 1'b0;
   MemRead = 2'b00;
-  MemtoReg = 0;
-  ALUOp = 2'b00;
+  MemtoReg = 1'b0;
+  ALUOp = 4'b0000;
   MemWrite = 2'b00;
-  ALUSrc = 0;
-  RegWrite = 1;
+  ALUSrc = 1'b0;
+  RegWrite = 1'b1;
   end
 else if(Instruction==6'b100011)//lw
   begin
-    RegDst = 1;
+    RegDst = 1'b1;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b01;
-    MemtoReg = 1;
-    ALUOp = 2'b01;	
+    MemtoReg = 1'b1;
+    ALUOp = 4'b0100;	
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
 else if(Instruction==6'b101011)//sw
   begin
@@ -37,22 +38,22 @@ else if(Instruction==6'b101011)//sw
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'b01;
+    ALUOp = 4'b0100;
     MemWrite = 2'b01;
-    ALUSrc = 1;
-    RegWrite = 0;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b0;
   end
 else if(Instruction==6'b100000)//lb
   begin
-    RegDst = 1;
+    RegDst = 1'b1;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b10;
-    MemtoReg = 1;
-    ALUOp = 2'b01;	
+    MemtoReg = 1'b1;
+    ALUOp = 4'b0100;	
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
 else if(Instruction==6'b101000)//sb
   begin
@@ -61,106 +62,130 @@ else if(Instruction==6'b101000)//sb
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'b01;	
+    ALUOp = 4'b0100;	
     MemWrite = 2'b10;
-    ALUSrc = 1;
-    RegWrite = 0;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b0;
   end
 else if(Instruction==6'b100001)//lh
   begin
-    RegDst = 1;
+    RegDst = 1'b1;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b11;
-    MemtoReg = 1;
-    ALUOp = 2'b01;
+    MemtoReg = 1'b1;
+    ALUOp = 4'b0100;
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
 else if(Instruction==6'b101001)//sh
   begin
     RegDst = 1'bx;
-    Jump = 2'b00;
+    Jump = 2'b00;   
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'b01;	
+    ALUOp = 4'b0100;	
     MemWrite = 2'b11;
-    ALUSrc = 1;
-    RegWrite = 0;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b0;
+  end
+  else if(Instruction==6'b001010)//slti
+  begin
+    RegDst = 1'b0;
+    Jump = 2'b00;
+    Branch = 1'b0;
+    MemRead = 2'b00;
+    MemtoReg = 1'b0;
+    ALUOp = 4'b0010; 
+    MemWrite = 2'b00;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
 else if(Instruction==6'b001111)//lui
   begin
-    RegDst = 0;
+    RegDst = 1'b0;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01; //REVISAR
+    MemtoReg = 1'b0;
+    ALUOp = 4'b0001; //REVISAR
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
-else if(Instruction==6'b001111)//andi
+else if(Instruction==6'b001100)//andi
   begin
-    RegDst = 0;
+    RegDst = 1'b0;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01; //REVISAR
+    MemtoReg = 1'b0;
+    ALUOp = 4'b1100;
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
-else if(Instruction==6'b001111)//ori    
+else if(Instruction==6'b001101)//ori    
   begin
-    RegDst = 0;
+    RegDst = 1'b0;
     Jump = 2'b00;
     Branch = 1'b0;
     MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01; //REVISAR
+    MemtoReg = 1'b0;
+    ALUOp = 4'b1110;
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
-else if(Instruction==6'b001111)//beq
+else if(Instruction==6'b001000)//andi    
   begin
-    RegDst = 0;
+    RegDst = 1'b0;
+    Jump = 2'b00;
+    Branch = 1'b0;
+    MemRead = 2'b00;
+    MemtoReg = 1'b0;
+    ALUOp = 4'b0100;
+    MemWrite = 2'b00;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
+  end
+else if(Instruction==6'b000100)//beq
+  begin
+    RegDst = 1'b0;
     Jump = 2'b00;
     Branch = 1'b1;
     MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01; 
+    MemtoReg = 1'b0;
+    ALUOp = 4'b0101; 
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
-else if(Instruction==6'b001111)//bneq
+else if(Instruction==6'b000101)//bneq
   begin
-    RegDst = 0;
+    RegDst = 1'b0;
     Jump = 2'b00;
     Branch = 1'b1;
     MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01;
+    MemtoReg = 1'b0;
+    ALUOp = 4'b0111;
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end
-else if(Instruction==6'b001111)//bgez
+else if(Instruction==6'b000111)//bgez
   begin
-    RegDst = 0;
+    RegDst = 1'b0;
     Jump = 2'b00;
     Branch = 1'b1;
     MemRead = 2'b00;
-    MemtoReg = 0;
-    ALUOp = 2'b01;
+    MemtoReg = 1'b0;
+    ALUOp = 4'b1111;
     MemWrite = 2'b00;
-    ALUSrc = 1;
-    RegWrite = 1;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
   end  
 else if(Instruction==6'b000010)//jump
   begin
@@ -169,10 +194,10 @@ else if(Instruction==6'b000010)//jump
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'bxx; 
+    ALUOp = 4'bxxxx; 
     MemWrite = 2'b00;
     ALUSrc = 1'bx;
-    RegWrite = 0;
+    RegWrite = 1'b0;
   end
 else if(Instruction==6'b000011)//jal
   begin
@@ -181,10 +206,10 @@ else if(Instruction==6'b000011)//jal
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'bxx;
+    ALUOp = 4'bxxxx;
     MemWrite = 2'b00;
     ALUSrc = 1'bx;
-    RegWrite = 0;
+    RegWrite = 1'b0;
   end
 else if(Instruction==6'b001000)//jr
   begin
@@ -193,10 +218,10 @@ else if(Instruction==6'b001000)//jr
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
-    ALUOp = 2'bxx; 
+    ALUOp = 4'bxxxx; 
     MemWrite = 2'b00;
     ALUSrc = 1'bx;
-    RegWrite = 0;
+    RegWrite = 1'b0;
   end
 end
 endmodule

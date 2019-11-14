@@ -62,7 +62,7 @@ begin
     //BGEZ
     4'b1111:
     begin
-	  if(entr1>=0)
+	  if(entr1>=entr2)
       zero = 1'b1;
     else 
       zero = 1'b0;

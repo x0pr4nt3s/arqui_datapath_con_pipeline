@@ -23,7 +23,8 @@ wire [31:0] Out_PC;//Out_PC=salida del program counter
 wire [31:0] Instruction;//la instruccion
 //CONTROL:
 wire RegDst,Jump,MemtoReg,ALUsrc,RegWrite,Branch;//del Control 
-wire [1:0] ALUOP, MemRead, MemWrite;//del Control
+wire [1:0] MemRead, MemWrite;//del Control
+wire [3:0] ALUOP;
 //REGISTER FILE:
 wire [4:0] writereg;
 wire [4:0] readreg1,readreg2;
@@ -57,10 +58,10 @@ Control call_Control(.clk(clk),.Instruction(Instruction[31:26]),.RegDst(RegDst),
 mux2_1_5 call_mux2_1_5bits(.a(Instruction[20:16]),.b(Instruction[15:11]),.sel(RegDst),.out(writereg));
 Register_File call_RF(.clk(clk),.readreg1(Instruction[25:21]),.readreg2(Instruction[20:16]),.writereg(writereg),.writedata(writedata),.read_data1(read_data1),.read_data2(read_data2),.regwrite(RegWrite));
 SignExtend call_Signextend(.a(Instruction[15:0]),.b(sign_extended));
-mux2_1 mux_antes_del_alu(.a(read_data2),.b(sign_extended),.sel(ALUSrc),.out(mux_alu));
+mux2_1 mux_antes_del_alu(.a(sign_extended),.b(read_data2),.sel(1'b1),.out(mux_alu));
 ALU_Control call_alu_control(.aluOp(ALUOP),.func(Instruction[5:0]),.out(alucontrol));
 //EXECUTE
-ALU call_ALU(.entr1(read_data1),.entr2(read_data2),.alu_ctrl(alucontrol),.alu_result(alu_result),.zero(zero));
+ALU call_ALU(.entr1(read_data1),.entr2(mux_alu),.alu_ctrl(alucontrol),.alu_result(alu_result),.zero(zero));
 /////////////////
 Shift_Left_Jump call_shift_jump(.imm(Instruction[25:0]),.PC(Out_PC[31:28]),.jump(Jump_address));
 Shift_Left_Branch call_shift_branch(.imm(sign_extended),.branch_address(shift_left_branch));//el sign_extend es el unsigned que sale del sign_extend
@@ -71,7 +72,7 @@ Data_Memory call_data_memory(.clk(clk),.address(alu_result),.memwrite(MemWrite),
 mux2_1 call_mux_data_memory(.a(DM_out),.b(alu_result),.sel(MemtoReg),.out(DM_mux));
 always @ (posedge clk)  
 begin
-#1;$display("%d,%b,%d,%d,%b,%b,%b",Out_PC,Instruction,Instruction[25:21],Instruction[20:16],read_data1,read_data2,alu_result);
+#2;$display("%d,%b,%d,%d,%b,%b,%b,%b",Out_PC,Instruction,Instruction[25:21],Instruction[20:16],read_data1,mux_alu,alu_result,zero);
 end
 
 endmodule
