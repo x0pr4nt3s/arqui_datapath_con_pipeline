@@ -71,7 +71,7 @@ Data_Memory call_data_memory(.clk(clk),.address(alu_result),.memwrite(MemWrite),
 mux2_1 call_mux_data_memory(.a(DM_out),.b(alu_result),.sel(MemtoReg),.out(DM_mux));
 always @ (posedge clk)  
 begin
-#1;$display("%d,%b,%d,%d,%d,%d",Out_PC,Instruction,Instruction[25:21],Instruction[20:16],read_data1,read_data2);
+#1;$display("%d,%b,%d,%d,%b,%b,%b",Out_PC,Instruction,Instruction[25:21],Instruction[20:16],read_data1,read_data2,alu_result);
 end
 
 endmodule
