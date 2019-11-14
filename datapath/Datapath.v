@@ -66,13 +66,13 @@ ALU call_ALU(.entr1(read_data1),.entr2(mux_alu),.alu_ctrl(alucontrol),.alu_resul
 Shift_Left_Jump call_shift_jump(.imm(Instruction[25:0]),.PC(Out_PC[31:28]),.jump(Jump_address));
 Shift_Left_Branch call_shift_branch(.imm(sign_extended),.branch_address(shift_left_branch));//el sign_extend es el unsigned que sale del sign_extend
 Adder call_adder(.a(Out_PC),.b(shift_left_branch),.y(branch_pc));
-And call_and(.a(Branch),.b(zero),.out(zero_to_mux));
+And call_and(.a(Branch),.b(zero),.out(zero_to_mux));//Corre perfecto
 mux2_1 call_mux2_1_branch(.a(Out_PC),.b(branch_pc),.sel(zero_to_mux),.out(mux_branch_out));
 Data_Memory call_data_memory(.clk(clk),.address(alu_result),.memwrite(MemWrite),.writedata(read_data2),.read_data(DM_out),.memread(MemRead));
 mux2_1 call_mux_data_memory(.a(DM_out),.b(alu_result),.sel(MemtoReg),.out(DM_mux));
 always @ (posedge clk)  
 begin
-#2;$display("%d,%b,%d,%d,%b,%b,%b,%b",Out_PC,Instruction,Instruction[25:21],Instruction[20:16],read_data1,mux_alu,alu_result,zero);
+#2;$display("%d,%b,%d,%b,%b,%b,%b,%b,%d",Out_PC,Instruction,Instruction[25:21],read_data1,mux_alu,alu_result,zero,zero_to_mux,branch_pc);
 end
 
 endmodule
