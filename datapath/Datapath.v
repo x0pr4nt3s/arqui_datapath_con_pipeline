@@ -60,9 +60,8 @@ Register_File call_RF(.clk(clk),.readreg1(Instruction[25:21]),.readreg2(Instruct
 SignExtend call_Signextend(.a(Instruction[15:0]),.b(sign_extended));
 mux2_1 mux_antes_del_alu(.a(sign_extended),.b(read_data2),.sel(1'b1),.out(mux_alu));
 ALU_Control call_alu_control(.aluOp(ALUOP),.func(Instruction[5:0]),.out(alucontrol));
-//EXECUTE
+//EXECUTE   
 ALU call_ALU(.entr1(read_data1),.entr2(mux_alu),.alu_ctrl(alucontrol),.alu_result(alu_result),.zero(zero));
-/////////////////
 Shift_Left_Jump call_shift_jump(.imm(Instruction[25:0]),.PC(Out_PC[31:28]),.jump(Jump_address));
 Shift_Left_Branch call_shift_branch(.imm(sign_extended),.branch_address(shift_left_branch));//el sign_extend es el unsigned que sale del sign_extend
 Adder call_adder(.a(Out_PC),.b(shift_left_branch),.y(branch_pc));
@@ -72,7 +71,7 @@ Data_Memory call_data_memory(.clk(clk),.address(alu_result),.memwrite(MemWrite),
 mux2_1 call_mux_data_memory(.a(DM_out),.b(alu_result),.sel(MemtoReg),.out(DM_mux));
 always @ (posedge clk)  
 begin
-#2;$display("%d,%b,%d,%b,%b,%b,%b,%b,%d",Out_PC,Instruction,Instruction[25:21],read_data1,mux_alu,alu_result,zero,zero_to_mux,branch_pc);
+#2;$display("%d,%b,%d,%b,%b,%b,%b,%b,%d,%b",Out_PC,Instruction,Instruction[25:21],read_data1,mux_alu,alu_result,zero,zero_to_mux,branch_pc,Jump_address);
 end
 
 endmodule

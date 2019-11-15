@@ -115,6 +115,18 @@ else if(Instruction==6'b001111)//lui
     ALUSrc = 1'b1;
     RegWrite = 1'b1;
   end
+else if(Instruction==6'b001000)//addi
+  begin 
+    RegDst = 1'b0;
+    Jump = 2'b00;
+    Branch = 1'b0;
+    MemRead = 2'b00;
+    MemtoReg = 1'b0;
+    ALUOp = 4'b0100; //REVISAR
+    MemWrite = 2'b00;
+    ALUSrc = 1'b1;
+    RegWrite = 1'b1;
+  end
 else if(Instruction==6'b001100)//andi
   begin
     RegDst = 1'b0;
@@ -211,7 +223,7 @@ else if(Instruction==6'b000011)//jal
     ALUSrc = 1'bx;
     RegWrite = 1'b0;
   end
-else if(Instruction==6'b001000)//jr
+else if(Instruction==6'b011000)//jr
   begin
     RegDst = 1'bx;
     Jump = 2'b11;

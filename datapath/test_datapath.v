@@ -17,7 +17,7 @@ initial begin
 	reset<=1;	
 	clk<=1;
 	#1;reset<=0;
-	#42;$finish;
+	#16;$finish;
 
 end
 

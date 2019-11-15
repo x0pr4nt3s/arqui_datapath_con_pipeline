@@ -1,10 +1,10 @@
 module InstructionMemory(pc,out);//solo recibe 
 input [31:0] pc;
 output reg [31:0] out;
-reg [7:0] instrucciones [0:91];//son 8 filas con 32 columnas
+reg [7:0] instrucciones [0:31];
 integer i;
 initial begin
-$readmemb("instrucciones.txt",instrucciones);
+$readmemb("programa1.txt",instrucciones);
 end
 always@(*)
 begin
