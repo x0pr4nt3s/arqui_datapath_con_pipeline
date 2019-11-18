@@ -10,7 +10,7 @@ begin
 if(Instruction==6'b000000)//R-Type
   begin
   RegDst =1'b1;
-  Jump = 2'b00;
+  Jump = 1'b0;
   Branch = 1'b0;
   MemRead = 2'b00;
   MemtoReg = 1'b0;
@@ -22,7 +22,7 @@ if(Instruction==6'b000000)//R-Type
 else if(Instruction==6'b100011)//lw
   begin
     RegDst = 1'b1;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b01;
     MemtoReg = 1'b1;
@@ -34,7 +34,7 @@ else if(Instruction==6'b100011)//lw
 else if(Instruction==6'b101011)//sw
   begin
     RegDst = 1'bx;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
@@ -46,7 +46,7 @@ else if(Instruction==6'b101011)//sw
 else if(Instruction==6'b100000)//lb
   begin
     RegDst = 1'b1;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b10;
     MemtoReg = 1'b1;
@@ -58,7 +58,7 @@ else if(Instruction==6'b100000)//lb
 else if(Instruction==6'b101000)//sb
   begin
     RegDst = 1'bx;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
@@ -70,7 +70,7 @@ else if(Instruction==6'b101000)//sb
 else if(Instruction==6'b100001)//lh
   begin
     RegDst = 1'b1;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b11;
     MemtoReg = 1'b1;
@@ -82,7 +82,7 @@ else if(Instruction==6'b100001)//lh
 else if(Instruction==6'b101001)//sh
   begin
     RegDst = 1'bx;
-    Jump = 2'b00;   
+    Jump = 1'b0;   
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
@@ -94,7 +94,7 @@ else if(Instruction==6'b101001)//sh
   else if(Instruction==6'b001010)//slti
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -106,7 +106,7 @@ else if(Instruction==6'b101001)//sh
 else if(Instruction==6'b001111)//lui
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -118,7 +118,7 @@ else if(Instruction==6'b001111)//lui
 else if(Instruction==6'b001000)//addi
   begin 
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -130,7 +130,7 @@ else if(Instruction==6'b001000)//addi
 else if(Instruction==6'b001100)//andi
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -142,7 +142,7 @@ else if(Instruction==6'b001100)//andi
 else if(Instruction==6'b001101)//ori    
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -154,7 +154,7 @@ else if(Instruction==6'b001101)//ori
 else if(Instruction==6'b001000)//andi    
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -166,7 +166,7 @@ else if(Instruction==6'b001000)//andi
 else if(Instruction==6'b000100)//beq
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b1;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -178,7 +178,7 @@ else if(Instruction==6'b000100)//beq
 else if(Instruction==6'b000101)//bneq
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b1;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -190,7 +190,7 @@ else if(Instruction==6'b000101)//bneq
 else if(Instruction==6'b000111)//bgez
   begin
     RegDst = 1'b0;
-    Jump = 2'b00;
+    Jump = 1'b0;
     Branch = 1'b1;
     MemRead = 2'b00;
     MemtoReg = 1'b0;
@@ -202,7 +202,7 @@ else if(Instruction==6'b000111)//bgez
 else if(Instruction==6'b000010)//jump
   begin
     RegDst = 1'bx;
-    Jump = 2'b01;
+    Jump = 1'b1;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
@@ -214,7 +214,7 @@ else if(Instruction==6'b000010)//jump
 else if(Instruction==6'b000011)//jal
   begin
     RegDst = 1'bx;
-    Jump = 2'b10;
+    Jump = 1'b1;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;
@@ -226,7 +226,7 @@ else if(Instruction==6'b000011)//jal
 else if(Instruction==6'b011000)//jr
   begin
     RegDst = 1'bx;
-    Jump = 2'b11;
+    Jump = 1'b1;
     Branch = 1'b0;
     MemRead = 2'b00;
     MemtoReg = 1'bx;

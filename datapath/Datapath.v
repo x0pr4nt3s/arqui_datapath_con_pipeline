@@ -43,14 +43,27 @@ wire [31:0] Jump_address;
 wire [31:0] shift_left_branch;
 wire [31:0] branch_pc;
 wire [31:0] mux_branch_out;
+wire [31:0] mux_jum_out;
 //DATA MEMORY:
 wire [31:0] writedata;
 wire zero_to_mux;
 wire [31:0] DM_out;
 wire [31:0] DM_mux;
+
+//
+wire [31:0] nuevo;
+
+
+//NOTA LOS JUMPS ESTAN POR ARREGLAR
+
+
+
+
+
 //FETCH:
 PC #(32)call_pc(.clk(clk),.reset(reset),.d(address_final),.q(Out_PC));
 InstructionMemory call_IM(.pc(Out_PC),.out(Instruction));
+
 adder_pc call_adder_pc(.pc(Out_PC),.pc_add(address_final));
 //DECODE:
 Control call_Control(.clk(clk),.Instruction(Instruction[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),
@@ -58,20 +71,33 @@ Control call_Control(.clk(clk),.Instruction(Instruction[31:26]),.RegDst(RegDst),
 mux2_1_5 call_mux2_1_5bits(.a(Instruction[20:16]),.b(Instruction[15:11]),.sel(RegDst),.out(writereg));
 Register_File call_RF(.clk(clk),.readreg1(Instruction[25:21]),.readreg2(Instruction[20:16]),.writereg(writereg),.writedata(writedata),.read_data1(read_data1),.read_data2(read_data2),.regwrite(RegWrite));
 SignExtend call_Signextend(.a(Instruction[15:0]),.b(sign_extended));
-mux2_1 mux_antes_del_alu(.a(sign_extended),.b(read_data2),.sel(1'b1),.out(mux_alu));
+mux2_1 mux_antes_del_alu(.a(sign_extended),.b(read_data2),.sel(ALUsrc),.out(mux_alu));
 ALU_Control call_alu_control(.aluOp(ALUOP),.func(Instruction[5:0]),.out(alucontrol));
+
+Shift_Left_Jump call_shift_jump(.imm(Instruction[25:0]),.PC(Out_PC[31:28]),.jump(Jump_address));
+
+Shift_Left_Branch call_shift_branch(.imm(sign_extended),.branch_address(shift_left_branch));//el sign_extend es el unsigned que sale del sign_extend
 //EXECUTE   
 ALU call_ALU(.entr1(read_data1),.entr2(mux_alu),.alu_ctrl(alucontrol),.alu_result(alu_result),.zero(zero));
-Shift_Left_Jump call_shift_jump(.imm(Instruction[25:0]),.PC(Out_PC[31:28]),.jump(Jump_address));
-Shift_Left_Branch call_shift_branch(.imm(sign_extended),.branch_address(shift_left_branch));//el sign_extend es el unsigned que sale del sign_extend
-Adder call_adder(.a(Out_PC),.b(shift_left_branch),.y(branch_pc));
+Adder call_adder(.a(address_final),.b(shift_left_branch),.y(branch_pc));
 And call_and(.a(Branch),.b(zero),.out(zero_to_mux));//Corre perfecto
-mux2_1 call_mux2_1_branch(.a(Out_PC),.b(branch_pc),.sel(zero_to_mux),.out(mux_branch_out));
+
+mux2_1 call_mux2_1_branch(.a(address_final),.b(branch_pc),.sel(zero_to_mux),.out(mux_branch_out));
+//falta el mux del
+
+//
+
+mux2_1 call_mux2_1_jump(.a(Jump_address),.b(mux_branch_out),.sel(Jump),.out(nuevo));
+//MEMORY
 Data_Memory call_data_memory(.clk(clk),.address(alu_result),.memwrite(MemWrite),.writedata(read_data2),.read_data(DM_out),.memread(MemRead));
+
+//WRITEBACK
 mux2_1 call_mux_data_memory(.a(DM_out),.b(alu_result),.sel(MemtoReg),.out(DM_mux));
+
+
 always @ (posedge clk)  
 begin
-#2;$display("%d,%b,%d,%b,%b,%b,%b,%b,%d,%b",Out_PC,Instruction,Instruction[25:21],read_data1,mux_alu,alu_result,zero,zero_to_mux,branch_pc,Jump_address);
+#2;$display("%d,%b,%b,%b,%b,%b,%d,%b",Out_PC,Instruction,read_data1,mux_alu,zero,zero_to_mux,branch_pc,nuevo);
 end
 
 endmodule
