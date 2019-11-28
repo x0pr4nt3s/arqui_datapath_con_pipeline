@@ -1,9 +1,9 @@
-`include "Datapath.v"
+`include "Datapath_con_pipeline.v"
 module testbench;
 reg clk;
 reg reset;
 
-DATAPATH test(.clk(clk),.reset(reset));
+DATAPATH_CON_PIPELINE test(.clk(clk),.reset(reset));
 
 always 
 begin

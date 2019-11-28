@@ -20,9 +20,9 @@ assign read_data2 = reg_set[readreg2];
 */
 
 //se escribe en negedge
-/*
+
 always @ (negedge clk) 
   if (regwrite) reg_set[writereg] <= writedata;
-*/
+
 
 endmodule
