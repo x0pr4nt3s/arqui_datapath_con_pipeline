@@ -1,5 +1,5 @@
-module Control(clk,Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
-input clk;
+module Control(clk,hazard_detected,Instruction,RegDst,Jump,Branch,MemRead,MemtoReg,ALUOp,MemWrite,ALUSrc,RegWrite);
+input clk,hazard_detected;
 input [5:0] Instruction;
 output reg RegDst,Branch,Jump,MemtoReg,ALUSrc,RegWrite;
 output reg [1:0] MemRead, MemWrite;
@@ -7,7 +7,11 @@ output reg [3:0] ALUOp;
 
 always @(*)
 begin
-if(Instruction==6'b000000)//R-Type
+if(hazard_detected)
+begin
+  //nada
+end
+else if(Instruction==6'b000000)//R-Type
   begin
   RegDst =1'b1;
   Jump = 1'b0;

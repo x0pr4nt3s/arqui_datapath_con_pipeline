@@ -13,6 +13,7 @@ always @(posedge clk)
 begin
   read_data1 <= reg_set[readreg1];
   read_data2 <= reg_set[readreg2];
+
 end
 /*
 assign read_data1 = reg_set[readreg1];
@@ -22,7 +23,8 @@ assign read_data2 = reg_set[readreg2];
 //se escribe en negedge
 
 always @ (negedge clk) 
-  if (regwrite) reg_set[writereg] <= writedata;
+  if (regwrite) 
+  reg_set[writereg] <= writedata;
 
 
 endmodule

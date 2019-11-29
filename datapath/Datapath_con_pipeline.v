@@ -111,7 +111,7 @@ hazard_detection call_hazard(.forward_EN(forward_EN),.alu_src(ALUsrc),.src1_ID(i
 
 //DECODE
 
-Control call_Control(.clk(clk),.Instruction(inst_F_D[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),
+Control call_Control(.clk(clk),.hazard_detected(hazard_detected),.Instruction(inst_F_D[31:26]),.RegDst(RegDst),.Jump(Jump),.Branch(Branch),.MemRead(MemRead),
 .MemtoReg(MemtoReg),.ALUOp(ALUOP),.MemWrite(MemWrite),.ALUSrc(ALUsrc),.RegWrite(RegWrite));//llamando al control
 
 mux2_1_5 call_mux2_1_5bits(.a(inst_F_D[20:16]),.b(inst_F_D[15:11]),.sel(RegDst),.out(writereg));
@@ -176,9 +176,10 @@ Data_Memory call_data_memory(.clk(clk),.address(alu_result),.memwrite(MemWrite_e
 //WRITEBACK
 mux2_1 call_mux_data_memory(.a(DM_out),.b(alu_result),.sel(MemtoReg_d_e),.out(DM_mux));
 
+
 always @ (posedge clk)  
 begin
-#2;$display("%b",hazard_detected);
+#2;$display("%b,%b",dest_d_e,dest_e_m);
 end
 
 

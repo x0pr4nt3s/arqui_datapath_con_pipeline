@@ -17,12 +17,8 @@ initial begin
 	reset<=1;	
 	clk<=1;
 	#1;reset<=0;
-	#16;$finish;
+	#30;$finish;
 
 end
-
-
-
-
 
 endmodule
